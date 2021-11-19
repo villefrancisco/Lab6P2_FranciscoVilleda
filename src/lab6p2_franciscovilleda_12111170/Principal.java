@@ -1,6 +1,12 @@
 
 package lab6p2_franciscovilleda_12111170;
 
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
+
 public class Principal extends javax.swing.JFrame {
 
     public Principal() {
@@ -25,9 +31,28 @@ public class Principal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jd_registro = new javax.swing.JDialog();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        reg_nombre = new javax.swing.JTextField();
+        reg_apellido = new javax.swing.JTextField();
+        reg_usuario = new javax.swing.JTextField();
+        reg_password = new javax.swing.JTextField();
+        reg_fecha = new javax.swing.JTextField();
+        bt_color = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        text_bienvenida = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        menu_login = new javax.swing.JMenuItem();
+        menu_cerrar = new javax.swing.JMenuItem();
+        menu_usuario = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Login");
@@ -40,9 +65,19 @@ public class Principal extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton1.setText("Ingresar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("Registrarse");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jd_loginLayout = new javax.swing.GroupLayout(jd_login.getContentPane());
         jd_login.getContentPane().setLayout(jd_loginLayout);
@@ -89,24 +124,156 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap(94, Short.MAX_VALUE))
         );
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel4.setText("Registro");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("Nombre:");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setText("Apellido:");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setText("Usuario:");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel8.setText("Fecha(dd/mm/aaaa)");
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setText("Color Favorito:");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setText("Contraseña:");
+
+        bt_color.setBackground(new java.awt.Color(0, 153, 51));
+        bt_color.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_colorMouseClicked(evt);
+            }
+        });
+
+        jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton4.setText("Volver");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
+
+        jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton5.setText("Registarse");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jd_registroLayout = new javax.swing.GroupLayout(jd_registro.getContentPane());
         jd_registro.getContentPane().setLayout(jd_registroLayout);
         jd_registroLayout.setHorizontalGroup(
             jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(jd_registroLayout.createSequentialGroup()
+                .addGroup(jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_registroLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel9))
+                        .addGap(18, 18, 18)
+                        .addGroup(jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(reg_nombre)
+                            .addComponent(reg_apellido)
+                            .addComponent(reg_usuario)
+                            .addComponent(reg_password)
+                            .addComponent(reg_fecha)
+                            .addComponent(bt_color, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))
+                    .addGroup(jd_registroLayout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(jButton4)
+                        .addGap(26, 26, 26)
+                        .addComponent(jButton5)))
+                .addContainerGap(62, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_registroLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(195, 195, 195))
         );
         jd_registroLayout.setVerticalGroup(
             jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(jd_registroLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jLabel4)
+                .addGap(30, 30, 30)
+                .addGroup(jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(reg_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(reg_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(reg_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(reg_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(reg_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_color, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addGap(29, 29, 29)
+                .addGroup(jd_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu2.setText("jMenu2");
-        jMenuBar1.add(jMenu2);
+        text_bienvenida.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        text_bienvenida.setText("Inicie Sesion para usar la aplicacion.");
 
-        jMenu4.setText("jMenu4");
-        jMenuBar1.add(jMenu4);
+        jMenu1.setText("Registro");
+
+        menu_login.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menu_login.setText("Login/Registro");
+        menu_login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_loginActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menu_login);
+
+        menu_cerrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menu_cerrar.setText("Cerrar Sesion");
+        menu_cerrar.setEnabled(false);
+        menu_cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_cerrarActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menu_cerrar);
+
+        jMenuBar1.add(jMenu1);
+
+        menu_usuario.setText("Usuario");
+        menu_usuario.setEnabled(false);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem3.setText("Pokemon");
+        menu_usuario.add(jMenuItem3);
+
+        jMenuBar1.add(menu_usuario);
 
         setJMenuBar(jMenuBar1);
 
@@ -114,16 +281,121 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 540, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(123, Short.MAX_VALUE)
+                .addComponent(text_bienvenida, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 377, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(125, 125, 125)
+                .addComponent(text_bienvenida, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void menu_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_loginActionPerformed
+        // TODO add your handling code here:
+        jd_login.pack();
+        jd_login.setLocationRelativeTo(this);
+        jd_login.setModal(true);
+        jd_login.setVisible(true);
+    }//GEN-LAST:event_menu_loginActionPerformed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        text_login.setText("");
+        text_password.setText("");
+        jd_login.setModal(false);
+        jd_login.setVisible(false);
+        jd_registro.pack();
+        jd_registro.setLocationRelativeTo(this);
+        jd_registro.setModal(true);
+        jd_registro.setVisible(true);
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        // TODO add your handling code here:
+        reg_apellido.setText("");
+        reg_fecha.setText("");
+        reg_nombre.setText("");
+        reg_password.setText("");
+        reg_usuario.setText("");
+        bt_color.setBackground(Color.RED);
+        jd_registro.setModal(false);
+        jd_registro.setVisible(false);
+        jd_login.pack();
+        jd_login.setLocationRelativeTo(this);
+        jd_login.setModal(true);
+        jd_login.setVisible(true);
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void bt_colorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_colorMouseClicked
+        // TODO add your handling code here:
+        bt_color.setBackground(JColorChooser.showDialog(jd_registro, "Eliga su color favorito", Color.yellow));
+    }//GEN-LAST:event_bt_colorMouseClicked
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        // TODO add your handling code here:
+        try{
+            SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
+            validarUser(reg_usuario.getText());
+            lista.add(new Usuario(reg_nombre.getText(),reg_apellido.getText(), reg_usuario.getText(), reg_password.getText()
+                    , sd.parse(reg_fecha.getText()), bt_color.getBackground()));
+            JOptionPane.showMessageDialog(jd_registro, "El usuario se agrego correctamente");
+        }catch(Exception x){
+            JOptionPane.showMessageDialog(jd_registro, "No se pudo agregar el usario. " + x.getMessage());
+        }finally{
+            reg_apellido.setText("");
+            reg_fecha.setText("");
+            reg_nombre.setText("");
+            reg_password.setText("");
+            reg_usuario.setText("");
+            bt_color.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        try{
+            for (Usuario temp: lista) {
+                if(text_login.getText().equals(temp.getUsuario())&& text_password.getText().equals(temp.getPassword()));
+                user = temp;
+                text_bienvenida.setText("Bienvenido " + temp + ". Ingrese a la aplicacion en el menu.");
+                menu_login.setEnabled(false);
+                jMenu1.setEnabled(true);
+                menu_usuario.setEnabled(true);
+            }
+            JOptionPane.showMessageDialog(jd_login, "Se ha iniciado sesion correctamente. ");
+            jd_login.setModal(false);
+            jd_login.setVisible(false);
+        }catch(Exception x){
+            JOptionPane.showMessageDialog(jd_login, "Usuario o Contraseña invalido. " + x.getMessage());
+        }
+        finally{
+            text_login.setText("");
+            text_password.setText("");
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void menu_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_cerrarActionPerformed
+        // TODO add your handling code here:
+        menu_login.setEnabled(false);
+        menu_cerrar.setEnabled(false);
+        menu_usuario.setEnabled(true);
+        text_bienvenida.setText("Inicie Sesion para usar la aplicacion.");
+    }//GEN-LAST:event_menu_cerrarActionPerformed
+
+    public void validarUser(String user) throws Exception{
+        for (Usuario temp : lista) {
+            if(user.equals(temp.getUsuario())){
+                throw new Exception("El nombre de usuario ya esta en uso");
+            }
+        }
+    }
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -158,17 +430,41 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_color;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu4;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JDialog jd_login;
     private javax.swing.JDialog jd_registro;
+    private javax.swing.JMenuItem menu_cerrar;
+    private javax.swing.JMenuItem menu_login;
+    private javax.swing.JMenu menu_usuario;
+    private javax.swing.JTextField reg_apellido;
+    private javax.swing.JTextField reg_fecha;
+    private javax.swing.JTextField reg_nombre;
+    private javax.swing.JTextField reg_password;
+    private javax.swing.JTextField reg_usuario;
+    private javax.swing.JLabel text_bienvenida;
     private javax.swing.JTextField text_login;
     private javax.swing.JPasswordField text_password;
     // End of variables declaration//GEN-END:variables
+    
+    ArrayList<Usuario> lista = new ArrayList();
+    Usuario user;
+    
+    
 }

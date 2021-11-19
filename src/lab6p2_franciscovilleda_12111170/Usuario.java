@@ -11,7 +11,9 @@ public class Usuario {
     private String password;
     private Date bday;
     private Color color;
+    private boolean grupo = false;
     ArrayList<Pokedex> pok = new ArrayList();
+    private String lider = "";
 
     public Usuario() {
     }
@@ -26,6 +28,14 @@ public class Usuario {
         pok.add(new Pokedex());
         pok.add(new Pokedex());
         pok.add(new Pokedex());
+    }
+
+    public String getLider() {
+        return lider;
+    }
+
+    public void setLider(String lider) {
+        this.lider = lider;
     }
 
     public String getNombre() {
@@ -82,6 +92,14 @@ public class Usuario {
 
     public void setPok(ArrayList<Pokedex> pok) {
         this.pok = pok;
+    }
+
+    public boolean isGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(boolean grupo) {
+        this.grupo = grupo;
     }
 
     @Override
