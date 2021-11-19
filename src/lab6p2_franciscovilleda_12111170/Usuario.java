@@ -14,6 +14,7 @@ public class Usuario {
     private boolean grupo = false;
     ArrayList<Pokedex> pok = new ArrayList();
     private String lider = "";
+    
 
     public Usuario() {
     }
@@ -104,7 +105,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return nombre;
+        return nombre + "" + lider;
     }
     
 }

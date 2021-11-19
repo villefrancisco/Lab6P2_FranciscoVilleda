@@ -10,6 +10,9 @@ public class Pokegrupos {
     private Usuario lider;
     private String tipo;
 
+    public Pokegrupos() {
+    }
+
     public Pokegrupos(String nombre, Usuario lider, String tipo) {
         this.nombre = nombre;
         this.lider = lider;

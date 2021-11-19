@@ -2,8 +2,13 @@
 package lab6p2_franciscovilleda_12111170;
 
 import java.awt.Color;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 
@@ -11,6 +16,11 @@ public class Principal extends javax.swing.JFrame {
 
     public Principal() {
         initComponents();
+        try {
+            iniciarElementos();
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "ERROR");
+        }
     }
 
     /**
@@ -49,11 +59,11 @@ public class Principal extends javax.swing.JFrame {
         jd_pokemon = new javax.swing.JDialog();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jList1 = new javax.swing.JList<>();
+        list_miembros = new javax.swing.JList<>();
         jLabel12 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cb_grupos = new javax.swing.JComboBox<>();
         jButton6 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -89,7 +99,7 @@ public class Principal extends javax.swing.JFrame {
         menu_login = new javax.swing.JMenuItem();
         menu_cerrar = new javax.swing.JMenuItem();
         menu_usuario = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        menu_pokemon = new javax.swing.JMenuItem();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Login");
@@ -275,7 +285,7 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
-        jList1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        list_miembros.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Miembros del grupo: ");
@@ -286,7 +296,12 @@ public class Principal extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel13.setText("Unirse a un Pokegrupo: ");
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cb_grupos.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cb_grupos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                cb_gruposMouseExited(evt);
+            }
+        });
 
         jButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton6.setText("Unirme");
@@ -308,7 +323,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel13)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cb_grupos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel15)
@@ -318,7 +333,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jList1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(list_miembros, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
                 .addContainerGap(85, Short.MAX_VALUE))
         );
@@ -332,12 +347,12 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jList1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(list_miembros, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cb_grupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton6)
                         .addGap(34, 34, 34)
@@ -569,9 +584,14 @@ public class Principal extends javax.swing.JFrame {
         menu_usuario.setText("Usuario");
         menu_usuario.setEnabled(false);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jMenuItem3.setText("Pokemon");
-        menu_usuario.add(jMenuItem3);
+        menu_pokemon.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menu_pokemon.setText("Pokemon");
+        menu_pokemon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_pokemonActionPerformed(evt);
+            }
+        });
+        menu_usuario.add(menu_pokemon);
 
         jMenuBar1.add(menu_usuario);
 
@@ -641,7 +661,6 @@ public class Principal extends javax.swing.JFrame {
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         // TODO add your handling code here:
         try{
-            SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
             validarUser(reg_usuario.getText());
             lista.add(new Usuario(reg_nombre.getText(),reg_apellido.getText(), reg_usuario.getText(), reg_password.getText()
                     , sd.parse(reg_fecha.getText()), bt_color.getBackground()));
@@ -661,17 +680,27 @@ public class Principal extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         try{
+            boolean valido = false;
+            Usuario found = null;
             for (Usuario temp: lista) {
-                if(text_login.getText().equals(temp.getUsuario())&& text_password.getText().equals(temp.getPassword()));
-                user = temp;
-                text_bienvenida.setText("Bienvenido " + temp + ". Ingrese a la aplicacion en el menu.");
-                menu_login.setEnabled(false);
-                jMenu1.setEnabled(true);
-                menu_usuario.setEnabled(true);
+                if(text_login.getText().equals(temp.getUsuario())&& text_password.getText().equals(temp.getPassword())){
+                    valido = true;
+                    found = temp;
+                }
             }
-            JOptionPane.showMessageDialog(jd_login, "Se ha iniciado sesion correctamente. ");
-            jd_login.setModal(false);
-            jd_login.setVisible(false);
+            if(valido){
+                user = found;
+                text_bienvenida.setText("Bienvenido " + found + ". Ingrese a la aplicacion en el menu.");
+                menu_login.setEnabled(false);
+                menu_cerrar.setEnabled(true);
+                menu_usuario.setEnabled(true);
+                JOptionPane.showMessageDialog(jd_login, "Se ha iniciado sesion correctamente. ");
+                jd_login.setModal(false);
+                jd_login.setVisible(false);
+            }else{
+                JOptionPane.showMessageDialog(jd_login, "Usuario no encontrado.");
+            }
+            
         }catch(Exception x){
             JOptionPane.showMessageDialog(jd_login, "Usuario o Contraseña invalido. " + x.getMessage());
         }
@@ -683,18 +712,68 @@ public class Principal extends javax.swing.JFrame {
 
     private void menu_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_cerrarActionPerformed
         // TODO add your handling code here:
-        menu_login.setEnabled(false);
+        menu_login.setEnabled(true);
         menu_cerrar.setEnabled(false);
-        menu_usuario.setEnabled(true);
+        menu_usuario.setEnabled(false);
         text_bienvenida.setText("Inicie Sesion para usar la aplicacion.");
     }//GEN-LAST:event_menu_cerrarActionPerformed
 
-    public void validarUser(String user) throws Exception{
+    private void menu_pokemonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_pokemonActionPerformed
+        // TODO add your handling code here:
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        for (Pokegrupos temp : grupos) {
+            model.addElement(temp);
+        }
+        cb_grupos.setModel(model);
+        jd_pokemon.pack();
+        jd_pokemon.setLocationRelativeTo(this);
+        jd_pokemon.setModal(true);
+        jd_pokemon.setVisible(true);
+        grupoUser();
+    }//GEN-LAST:event_menu_pokemonActionPerformed
+
+    private void cb_gruposMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cb_gruposMouseExited
+        // TODO add your handling code here:
+        Pokegrupos pok = (Pokegrupos) cb_grupos.getSelectedItem();
+        DefaultListModel modelo = new DefaultListModel();
+        for (Usuario temp : pok.getMiembros()) {
+            modelo.addElement(temp);
+        }
+        list_miembros.setModel(modelo);
+    }//GEN-LAST:event_cb_gruposMouseExited
+
+    private void validarUser(String user) throws Exception{
         for (Usuario temp : lista) {
             if(user.equals(temp.getUsuario())){
                 throw new Exception("El nombre de usuario ya esta en uso");
             }
         }
+    }
+    
+
+    private void grupoUser(){
+        for (Pokegrupos temp: grupos){
+            for (Usuario temp_u : temp.getMiembros()) {
+                if(user.getUsuario().equals(temp_u.getUsuario()))
+                    grupo = temp;
+            }
+        }
+    }   
+    
+    private void iniciarElementos() throws ParseException{
+        Usuario user1 = new Usuario("Carlos", "Lopez", "carl123", "12345", sd.parse("10/01/2000"), Color.yellow);
+        Usuario user2 = new Usuario("Mario", "Sanchez", "mar123", "12345", sd.parse("01/10/2000"), Color.red);
+        user1.getPok().get(0).getPokemones().add(new Electrico("Pikachu", 200, 300, "alta"));
+        user1.getPok().get(0).getPokemones().add(new Psiquico("Alakazam", 150, 400, "baja"));
+        user2.getPok().get(0).getPokemones().add(new Fantasma("Gengar", 150, 450, "media"));
+        user2.getPok().get(0).getPokemones().add(new Electrico("Koffing", 200, 250, "alta"));
+        Pokegrupos pok = new Pokegrupos("Ayuda", user1, "novato");
+        user1.setLider("(lider)");
+        pok.getMiembros().add(user1);
+        pok.getMiembros().add(user2);
+        lista.add(user1);
+        lista.add(user2);
+        grupos.add(pok);
     }
     
     public static void main(String args[]) {
@@ -738,6 +817,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JRadioButton bt_media;
     private javax.swing.JRadioButton bt_psiquico;
     private javax.swing.JRadioButton bt_venenoso;
+    private javax.swing.JComboBox<String> cb_grupos;
     private javax.swing.JFormattedTextField crear_damage;
     private javax.swing.JFormattedTextField crear_hp;
     private javax.swing.JTextField crear_nombre;
@@ -752,7 +832,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -773,10 +852,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -785,8 +862,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JDialog jd_login;
     private javax.swing.JDialog jd_pokemon;
     private javax.swing.JDialog jd_registro;
+    private javax.swing.JList<String> list_miembros;
     private javax.swing.JMenuItem menu_cerrar;
     private javax.swing.JMenuItem menu_login;
+    private javax.swing.JMenuItem menu_pokemon;
     private javax.swing.JMenu menu_usuario;
     private javax.swing.JTextField reg_apellido;
     private javax.swing.JTextField reg_fecha;
@@ -803,5 +882,6 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Usuario> lista = new ArrayList();
     Usuario user;
     ArrayList<Pokegrupos> grupos = new ArrayList();
-    
+    Pokegrupos grupo;
+    SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
 }
