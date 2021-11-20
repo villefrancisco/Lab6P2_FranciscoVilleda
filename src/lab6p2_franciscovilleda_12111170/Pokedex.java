@@ -7,8 +7,10 @@ public class Pokedex {
     
     ArrayList<Pokemon> pokemones = new ArrayList();
     private double damage;
+    private String nombre;
 
-    public Pokedex() {
+    public Pokedex(String nombre) {
+        this.nombre = nombre;
     }
 
     public ArrayList<Pokemon> getPokemones() {
@@ -34,7 +36,7 @@ public class Pokedex {
 
     @Override
     public String toString() {
-        return "Pokedex";
+        return "Pokedex " + nombre;
     }
     
 }

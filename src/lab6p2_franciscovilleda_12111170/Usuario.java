@@ -26,9 +26,9 @@ public class Usuario {
         this.password = password;
         this.bday = bday;
         this.color = color;
-        pok.add(new Pokedex());
-        pok.add(new Pokedex());
-        pok.add(new Pokedex());
+        pok.add(new Pokedex("1"));
+        pok.add(new Pokedex("2"));
+        pok.add(new Pokedex("3"));
     }
 
     public String getLider() {

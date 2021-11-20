@@ -11,6 +11,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 public class Principal extends javax.swing.JFrame {
 
@@ -69,6 +72,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         text_grupo = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
+        text_gruponame = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tree_pokedex = new javax.swing.JTree();
@@ -347,18 +351,22 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(text_grupo)
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                 .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(list_miembros, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(text_gruponame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(85, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(text_gruponame, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -388,6 +396,11 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tree_pokedex);
 
         jButton8.setText("<-");
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton8MouseClicked(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel16.setText("Nombre:");
@@ -741,6 +754,18 @@ public class Principal extends javax.swing.JFrame {
             model.addElement(temp);
         }
         cb_grupos.setModel(model);
+        DefaultTreeModel modelo = new DefaultTreeModel((TreeNode) tree_pokedex.getModel().getRoot());
+        DefaultMutableTreeNode raiz  = (DefaultMutableTreeNode) modelo.getRoot();
+        for (Pokedex temp : user.getPok()) {
+            DefaultMutableTreeNode Pokedex = new DefaultMutableTreeNode(temp);
+            for (Pokemon temp2: temp.getPokemones()) {
+                DefaultMutableTreeNode Pokemon = new DefaultMutableTreeNode(temp2);
+                Pokedex.add(Pokemon);
+            }
+            raiz.add(Pokedex);
+        }
+        tree_pokedex.setModel(modelo);
+        titulo_usuario.setText(user.toString());
         jd_pokemon.pack();
         jd_pokemon.setLocationRelativeTo(this);
         jd_pokemon.setModal(true);
@@ -755,6 +780,7 @@ public class Principal extends javax.swing.JFrame {
             modelo.addElement(temp);
         }
         list_miembros.setModel(modelo);
+        text_gruponame.setText(pok.getNombre());
     }//GEN-LAST:event_cb_gruposMouseExited
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
@@ -764,6 +790,7 @@ public class Principal extends javax.swing.JFrame {
             grupo.getMiembros().remove(user);
             if(user.equals(grupo.getLider())){
                 user.setLider("");
+                titulo_usuario.setText(user.toString());
                 int size = grupo.getMiembros().size();
                 if(size == 0){
                     grupos.remove(grupo);
@@ -803,6 +830,9 @@ public class Principal extends javax.swing.JFrame {
                 grupo = new Pokegrupos(text_grupo.getText(), user, "novato");
                 grupo.getMiembros().add(user);
                 grupos.add(grupo);
+                user.setLider("(lider)");
+                titulo_usuario.setText(user.toString());
+                user.setGrupo(true);
                 DefaultComboBoxModel model = new DefaultComboBoxModel();
                 for (Pokegrupos temp : grupos) {
                     model.addElement(temp);
@@ -816,6 +846,12 @@ public class Principal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
+        // TODO add your handling code here:
+        DefaultTreeModel m = (DefaultTreeModel) tree_pokedex.getModel();
+        
+    }//GEN-LAST:event_jButton8MouseClicked
 
     private void validarUser(String user) throws Exception{
         for (Usuario temp : lista) {
@@ -949,6 +985,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField reg_usuario;
     private javax.swing.JLabel text_bienvenida;
     private javax.swing.JTextField text_grupo;
+    private javax.swing.JLabel text_gruponame;
     private javax.swing.JTextField text_login;
     private javax.swing.JPasswordField text_password;
     private javax.swing.JLabel titulo_usuario;
@@ -958,7 +995,7 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Usuario> lista = new ArrayList();
     Usuario user;
     ArrayList<Pokegrupos> grupos = new ArrayList();
-    Pokegrupos grupo;
+    Pokegrupos grupo = new Pokegrupos();
     SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
     Random rng = new Random();
 }
