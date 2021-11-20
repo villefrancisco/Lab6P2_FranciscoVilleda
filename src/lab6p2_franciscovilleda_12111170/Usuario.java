@@ -105,7 +105,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return nombre + "" + lider;
+        return nombre + " " + lider;
     }
     
 }

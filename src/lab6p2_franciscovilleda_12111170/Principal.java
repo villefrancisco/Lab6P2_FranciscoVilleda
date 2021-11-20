@@ -67,7 +67,7 @@ public class Principal extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        text_grupo = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -292,6 +292,11 @@ public class Principal extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton3.setText("Salirme del grupo");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel13.setText("Unirse a un Pokegrupo: ");
@@ -305,14 +310,24 @@ public class Principal extends javax.swing.JFrame {
 
         jButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton6.setText("Unirme");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Crear Pokegrupo:");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        text_grupo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jButton7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton7.setText("Crear");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -329,7 +344,7 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField1)
+                    .addComponent(text_grupo)
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -360,7 +375,7 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(text_grupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton7)))
                 .addGap(47, 47, 47))
@@ -720,6 +735,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void menu_pokemonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_pokemonActionPerformed
         // TODO add your handling code here:
+        grupoUser();
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         for (Pokegrupos temp : grupos) {
             model.addElement(temp);
@@ -729,7 +745,6 @@ public class Principal extends javax.swing.JFrame {
         jd_pokemon.setLocationRelativeTo(this);
         jd_pokemon.setModal(true);
         jd_pokemon.setVisible(true);
-        grupoUser();
     }//GEN-LAST:event_menu_pokemonActionPerformed
 
     private void cb_gruposMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cb_gruposMouseExited
@@ -742,6 +757,66 @@ public class Principal extends javax.swing.JFrame {
         list_miembros.setModel(modelo);
     }//GEN-LAST:event_cb_gruposMouseExited
 
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // TODO add your handling code here:
+        if(user.isGrupo()){
+            user.setGrupo(false);
+            grupo.getMiembros().remove(user);
+            if(user.equals(grupo.getLider())){
+                user.setLider("");
+                int size = grupo.getMiembros().size();
+                if(size == 0){
+                    grupos.remove(grupo);
+                }
+                else{
+                    grupo.setLider(grupo.getMiembros().get(rng.nextInt(size)));
+                    grupo.getLider().setLider("(lider)");
+                    text_bienvenida.setText("Bienvenido " + user + ". Ingrese a la aplicacion en el menu.");
+                }
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(jd_pokemon, "No pertence a ningun pokegrupo");
+        }
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        // TODO add your handling code here:
+        if(user.isGrupo()){
+            JOptionPane.showMessageDialog(jd_pokemon, "Usted ya pertenece a un grupo");
+        }
+        else{
+            grupo = (Pokegrupos) cb_grupos.getSelectedItem();
+            grupo.getMiembros().add(user);
+            user.setGrupo(true);
+            JOptionPane.showMessageDialog(jd_pokemon, "Ahora pertence al grupo " + grupo);
+        }
+    }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        // TODO add your handling code here:
+        if(user.isGrupo()){
+            JOptionPane.showMessageDialog(jd_pokemon, "Usted ya pertenece a un grupo");
+        }
+        else{
+            try{
+                grupo = new Pokegrupos(text_grupo.getText(), user, "novato");
+                grupo.getMiembros().add(user);
+                grupos.add(grupo);
+                DefaultComboBoxModel model = new DefaultComboBoxModel();
+                for (Pokegrupos temp : grupos) {
+                    model.addElement(temp);
+                }
+                cb_grupos.setModel(model);
+                JOptionPane.showMessageDialog(jd_pokemon, "Grupo creado exitosamente");
+            }catch(Exception x){
+                JOptionPane.showMessageDialog(jd_pokemon, "Ingrese un nombre para el grupo");
+            }finally{
+                text_grupo.setText("");
+            }
+        }
+    }//GEN-LAST:event_jButton7MouseClicked
+
     private void validarUser(String user) throws Exception{
         for (Usuario temp : lista) {
             if(user.equals(temp.getUsuario())){
@@ -750,7 +825,6 @@ public class Principal extends javax.swing.JFrame {
         }
     }
     
-
     private void grupoUser(){
         for (Pokegrupos temp: grupos){
             for (Usuario temp_u : temp.getMiembros()) {
@@ -771,6 +845,8 @@ public class Principal extends javax.swing.JFrame {
         user1.setLider("(lider)");
         pok.getMiembros().add(user1);
         pok.getMiembros().add(user2);
+        user1.setGrupo(true);
+        user2.setGrupo(true);
         lista.add(user1);
         lista.add(user2);
         grupos.add(pok);
@@ -858,7 +934,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JDialog jd_login;
     private javax.swing.JDialog jd_pokemon;
     private javax.swing.JDialog jd_registro;
@@ -873,6 +948,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField reg_password;
     private javax.swing.JTextField reg_usuario;
     private javax.swing.JLabel text_bienvenida;
+    private javax.swing.JTextField text_grupo;
     private javax.swing.JTextField text_login;
     private javax.swing.JPasswordField text_password;
     private javax.swing.JLabel titulo_usuario;
@@ -884,4 +960,5 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Pokegrupos> grupos = new ArrayList();
     Pokegrupos grupo;
     SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
+    Random rng = new Random();
 }
