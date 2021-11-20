@@ -9,6 +9,9 @@ public class Pokedex {
     private double damage;
     private String nombre;
 
+    public Pokedex() {
+    }
+
     public Pokedex(String nombre) {
         this.nombre = nombre;
     }

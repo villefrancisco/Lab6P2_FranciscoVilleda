@@ -97,6 +97,10 @@ public class Principal extends javax.swing.JFrame {
         titulo_usuario = new javax.swing.JLabel();
         group_velocidad = new javax.swing.ButtonGroup();
         group_tipo = new javax.swing.ButtonGroup();
+        menu_popup = new javax.swing.JPopupMenu();
+        mostrar = new javax.swing.JMenuItem();
+        editar = new javax.swing.JMenuItem();
+        eliminar = new javax.swing.JMenuItem();
         text_bienvenida = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -393,6 +397,11 @@ public class Principal extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Root");
         tree_pokedex.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        tree_pokedex.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tree_pokedexMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tree_pokedex);
 
         jButton8.setText("<-");
@@ -455,6 +464,11 @@ public class Principal extends javax.swing.JFrame {
 
         jButton9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton9.setText("Editar");
+        jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton9MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -580,6 +594,20 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
+
+        mostrar.setText("mostrar");
+        mostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mostrarActionPerformed(evt);
+            }
+        });
+        menu_popup.add(mostrar);
+
+        editar.setText("editar");
+        menu_popup.add(editar);
+
+        eliminar.setText("eliminar");
+        menu_popup.add(eliminar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -849,9 +877,110 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
         // TODO add your handling code here:
-        DefaultTreeModel m = (DefaultTreeModel) tree_pokedex.getModel();
-        
+        try{
+            Pokedex valida = new Pokedex();
+            boolean validar = false;
+            String nombre = crear_nombre.getText();
+            int damage = Integer.parseInt(crear_damage.getText());
+            int hp = Integer.parseInt(crear_hp.getText());
+            String vel = "";
+            if(bt_alta.isSelected()){
+                vel = "alta";
+            }
+            else if(bt_media.isSelected()){
+                vel = "media";
+            }
+            else if(bt_baja.isSelected()){
+                vel = "baja";
+            }
+            for (Pokedex temp : user.getPok()){
+                if(temp.getPokemones().size() < 3 && !validar){
+                    valida = temp;
+                    validar = true;
+                }
+            }
+            if(validar){
+                if(bt_electrico.isSelected()){
+                    valida.getPokemones().add( new Electrico(nombre, damage, hp, vel));
+                }else if(bt_psiquico.isSelected()){
+                    valida.getPokemones().add( new Psiquico(nombre, damage, hp, vel));
+                }else if(bt_venenoso.isSelected()){
+                    valida.getPokemones().add( new Venenoso(nombre, damage, hp, vel));
+                }else if(bt_fantasma.isSelected()){
+                    valida.getPokemones().add( new Fantasma(nombre, damage, hp, vel));
+                }
+                crearTree();
+            }else{
+                JOptionPane.showMessageDialog(jd_pokemon, "No se pudo ingresar el pokemon");
+            }
+        }catch(Exception x){
+            JOptionPane.showMessageDialog(jd_pokemon, "No se pudo ingresar el pokemon");
+        }finally{
+            crear_nombre.setText("");
+            crear_damage.setText("");
+            crear_hp.setText("");
+        }
     }//GEN-LAST:event_jButton8MouseClicked
+
+    private void tree_pokedexMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tree_pokedexMouseClicked
+        // TODO add your handling code here:
+        if (evt.isMetaDown()) {
+            //seleccionar un nodo con click derecho
+            int row = tree_pokedex.getClosestRowForLocation(
+                    evt.getX(), evt.getY());
+            tree_pokedex.setSelectionRow(row);
+            Object v1
+                    = tree_pokedex.getSelectionPath().
+                    getLastPathComponent();
+            nodo_selec = (DefaultMutableTreeNode) v1;
+            if (nodo_selec.getUserObject() instanceof Pokemon) {
+                poke_selec
+                        = (Pokemon) nodo_selec.
+                        getUserObject();
+                menu_popup.show(evt.getComponent(),
+                        evt.getX(), evt.getY());
+            }
+
+        }
+    }//GEN-LAST:event_tree_pokedexMouseClicked
+
+    private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
+        // TODO add your handling code here:
+        Pokemon pok = (Pokemon) nodo_selec.getUserObject();
+        crear_nombre.setText(pok.getNombre());
+        crear_damage.setText(""+pok.getDamage());
+        crear_hp.setText(""+pok.getHp());
+        String vel = pok.getVelocidad();
+        if(vel == "alta"){
+            bt_alta.setSelected(true);
+        }
+        else if(vel == "media"){
+            bt_media.setSelected(true);
+        }
+        else if(vel == "alta"){
+            bt_alta.setSelected(true);
+        }
+        if(pok instanceof Electrico){
+            bt_electrico.setSelected(true);
+        }else if(pok instanceof Psiquico){
+            bt_psiquico.setSelected(true);
+        }else if(pok instanceof Venenoso){
+            bt_venenoso.setSelected(true);
+        }else if(pok instanceof Fantasma){
+            bt_venenoso.setSelected(true);
+        }
+        
+        crear_nombre.setEditable(false);
+        crear_damage.setEditable(false);
+        crear_hp.setEditable(false);
+    }//GEN-LAST:event_mostrarActionPerformed
+
+    private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
+        // TODO add your handling code here:
+        crear_nombre.setEditable(true);
+        crear_damage.setEditable(true);
+        crear_hp.setEditable(true);
+    }//GEN-LAST:event_jButton9MouseClicked
 
     private void validarUser(String user) throws Exception{
         for (Usuario temp : lista) {
@@ -886,6 +1015,20 @@ public class Principal extends javax.swing.JFrame {
         lista.add(user1);
         lista.add(user2);
         grupos.add(pok);
+    }
+    
+    private void crearTree(){
+        DefaultTreeModel modelo = new DefaultTreeModel((TreeNode) tree_pokedex.getModel().getRoot());
+        DefaultMutableTreeNode raiz  = (DefaultMutableTreeNode) modelo.getRoot();
+        for (Pokedex temp : user.getPok()) {
+            DefaultMutableTreeNode Pokedex = new DefaultMutableTreeNode(temp);
+            for (Pokemon temp2: temp.getPokemones()) {
+                DefaultMutableTreeNode Pokemon = new DefaultMutableTreeNode(temp2);
+                Pokedex.add(Pokemon);
+            }
+            raiz.add(Pokedex);
+        }
+        tree_pokedex.setModel(modelo);
     }
     
     public static void main(String args[]) {
@@ -933,6 +1076,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField crear_damage;
     private javax.swing.JFormattedTextField crear_hp;
     private javax.swing.JTextField crear_nombre;
+    private javax.swing.JMenuItem editar;
+    private javax.swing.JMenuItem eliminar;
     private javax.swing.ButtonGroup group_tipo;
     private javax.swing.ButtonGroup group_velocidad;
     private javax.swing.JButton jButton1;
@@ -977,7 +1122,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menu_cerrar;
     private javax.swing.JMenuItem menu_login;
     private javax.swing.JMenuItem menu_pokemon;
+    private javax.swing.JPopupMenu menu_popup;
     private javax.swing.JMenu menu_usuario;
+    private javax.swing.JMenuItem mostrar;
     private javax.swing.JTextField reg_apellido;
     private javax.swing.JTextField reg_fecha;
     private javax.swing.JTextField reg_nombre;
@@ -998,4 +1145,6 @@ public class Principal extends javax.swing.JFrame {
     Pokegrupos grupo = new Pokegrupos();
     SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
     Random rng = new Random();
+    DefaultMutableTreeNode nodo_selec;
+    Pokemon poke_selec;
 }
